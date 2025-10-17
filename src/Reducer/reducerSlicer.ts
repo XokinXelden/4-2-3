@@ -42,12 +42,14 @@ export const vacanciesSlice = createSlice({
           });
           break;
       }
+      state.options.page = 1;
     },
     activePage: (state, action) => {
       state.options.page = action.payload;
     },
     installFilter: (state, action) => {
       state.options.filter = action.payload === "" ? "" : action.payload;
+      state.options.page = 1;
     },
     changeCity: (state, action) => {
       switch (action.payload) {
