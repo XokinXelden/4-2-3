@@ -27,6 +27,15 @@ export const fetchVacanciesList = createAsyncThunk<
         options.page - 1
       }${filter}${skill}`
     );
+
+    console.log(
+      `https://api.hh.ru/vacancies?area=${
+        options.city
+      }&industry=7&professional_role=96&per_page=10&page=${
+        options.page - 1
+      }${filter}${skill}`
+    );
+
     if (!response.ok) {
       throw new Error("При запросе на сервер что то пошло не так");
     }

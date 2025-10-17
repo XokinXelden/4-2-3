@@ -29,7 +29,8 @@ function InputBlock() {
           }}
           onKeyDown={(e) => {
             if (e.key === "Enter") {
-              dispatch(installFilter(inputValue));
+              console.log(inputValue);
+              dispatch(installFilter(inputValue ?? ""));
             }
           }}
         ></Input>

@@ -47,7 +47,7 @@ export const vacanciesSlice = createSlice({
       state.options.page = action.payload;
     },
     installFilter: (state, action) => {
-      state.options.filter = action.payload === "" ? null : action.payload;
+      state.options.filter = action.payload === "" ? "" : action.payload;
     },
     changeCity: (state, action) => {
       switch (action.payload) {
