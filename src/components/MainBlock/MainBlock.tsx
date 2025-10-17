@@ -28,6 +28,7 @@ function MainBlock() {
           <Vacancies />
           <Pagination
             w="auto"
+            mb={15}
             total={options.pages}
             value={options.page}
             onChange={(newPage) => dispatch(activePage(newPage))}

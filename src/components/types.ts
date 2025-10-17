@@ -15,7 +15,7 @@ export type OptionsType = {
   pages: number;
   skills: string[];
   city: string;
-  filter: string | null;
+  filter: string;
 };
 export type VacanciesResponseJson = {
   items: VacanciesItemsJson[];
