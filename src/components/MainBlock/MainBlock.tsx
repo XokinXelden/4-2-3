@@ -31,6 +31,7 @@ function MainBlock() {
             total={options.pages}
             value={options.page}
             onChange={(newPage) => dispatch(activePage(newPage))}
+            style={{ alignSelf: "center" }}
           ></Pagination>
         </Stack>
       </Flex>

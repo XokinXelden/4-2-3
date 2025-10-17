@@ -95,6 +95,7 @@ export const vacanciesSlice = createSlice({
         state.loading = false;
       })
       .addCase(fetchVacanciesList.rejected, (state, action) => {
+        console.log(1, action);
         state.error = action.payload;
         state.loading = false;
       });

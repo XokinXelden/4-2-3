@@ -10,12 +10,10 @@ function Vacancies() {
   if (loading) {
     return <LoadingVacancies />;
   }
-  if (error)
-    return (
-      <Alert title="Ну всё, без работы сидим" bg="red">
-        {error}
-      </Alert>
-    );
+  if (error) {
+    // console.log(error);
+    return <Alert title="Ну всё, без работы сидим">{error}</Alert>;
+  }
   return <VacanciesCard vacancies={vacancies} />;
 }
 

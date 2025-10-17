@@ -5,7 +5,7 @@ export const fetchVacanciesList = createAsyncThunk<
   VacanciesResponseJson,
   OptionsType,
   { rejectValue: string }
->("vacanciesList/fetch", async (options, { fulfillWithValue }) => {
+>("vacanciesList/fetch", async (options, { rejectWithValue }) => {
   try {
     const filter = options.filter !== "" ? `&text=${options.filter}` : "";
     const skillReplacer =
@@ -34,9 +34,10 @@ export const fetchVacanciesList = createAsyncThunk<
     return dataVac;
   } catch (error) {
     if (error instanceof Error) {
-      return fulfillWithValue(error.message);
+      // console.log(error.message);
+      return rejectWithValue(error.message);
     } else {
-      return fulfillWithValue("что то не так с источником");
+      return rejectWithValue("что то не так с источником");
     }
   }
 });
