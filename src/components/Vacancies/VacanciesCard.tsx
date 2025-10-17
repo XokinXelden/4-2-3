@@ -1,5 +1,5 @@
 import { Button, Flex, Pill, Stack, Text } from "@mantine/core";
-import Base from "./Base";
+import Base from "../Share/Base";
 import type { Vacancies } from "../types";
 
 type VacType = {
@@ -22,7 +22,7 @@ function VacanciesCard({ vacancies }: VacType) {
         }
       };
       return (
-        <Base key={i}>
+        <Base key={i} data-testid={`Card-${i}`}>
           <Stack gap={7}>
             <Text color="#4263EB" fw="bold">
               {vac.name}

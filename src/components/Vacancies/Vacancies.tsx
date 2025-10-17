@@ -1,6 +1,6 @@
 import { Alert } from "@mantine/core";
 import { useAppSelector } from "../hooks/redux";
-import VacanciesCard from "../Share/VacanciesCard";
+import VacanciesCard from "./VacanciesCard";
 import LoadingVacancies from "./LoadingVacancies";
 
 function Vacancies() {
@@ -8,7 +8,7 @@ function Vacancies() {
     (state) => state.rootReducer.vacanciesReducer
   );
   if (loading) {
-    return <LoadingVacancies></LoadingVacancies>;
+    return <LoadingVacancies />;
   }
   if (error)
     return (

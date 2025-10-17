@@ -15,6 +15,7 @@ function SkillsOption() {
         <Text>Ключевые навыки</Text>
         <Flex>
           <Input
+            data-testid="skill-input"
             placeholder="Навык"
             mr={5}
             size="xs"

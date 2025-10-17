@@ -6,7 +6,7 @@ function LoadingVacancies() {
     <>
       {Array.from({ length: 10 }).map((_, i) => {
         return (
-          <Base key={i}>
+          <Base key={i} data-testid="LoadingCard">
             <Stack gap={5}>
               <Skeleton h={24} />
               <Skeleton h={24} />

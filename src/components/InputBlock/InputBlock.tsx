@@ -17,6 +17,7 @@ function InputBlock() {
       </Stack>
       <Flex align="center" gap={5}>
         <Input
+          data-testid="input-emp"
           miw={300}
           h={40}
           pt={2}

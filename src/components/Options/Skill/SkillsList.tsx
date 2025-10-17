@@ -10,7 +10,7 @@ function SkillsList() {
 
   return (
     <Flex wrap="wrap" maw={280}>
-      <Pill.Group>
+      <Pill.Group data-testid="skill-list">
         {PreSkills.map((skill, i) => {
           return (
             <Pill
