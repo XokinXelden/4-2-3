@@ -18,12 +18,11 @@ function Vacancies() {
     });
     dispatch(cleanUp("CleanSearchVac"));
   };
-
   if (loading) {
     return <LoadingVacancies count={10} />;
   }
   if (error) {
-    return <AlertTime error={error} />;
+    return <AlertTime />;
   }
   if (vacancies !== null) {
     return vacancies.map((vacancy) => {

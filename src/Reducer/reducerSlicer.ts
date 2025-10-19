@@ -21,7 +21,7 @@ const initialState: SlicerType = {
   options: {
     page: 1,
     pages: 10,
-    city: { id: "113", name: "" },
+    city: { id: "1", name: "moscow" },
     skills: [],
     filter: "",
     textFilter: "",
@@ -67,13 +67,13 @@ export const vacanciesSlice = createSlice({
       const city = Object.entries(cities).find((city) => {
         if (city[0] === action.payload) {
           return city;
-        } else if (city[1] === action.payload) {
+        } else if (city[1].translated === action.payload) {
           return city;
         }
       });
       if (city) {
         state.options.city.id = city[0];
-        state.options.city.name = city[1];
+        state.options.city.name = city[1].translated;
       }
     },
     firstSkillsEntering: (state, action) => {
@@ -131,6 +131,7 @@ export const vacanciesSlice = createSlice({
       })
       .addCase(fetchVacanciesList.rejected, (state, action) => {
         state.error = action.payload;
+        state.loading = false;
       });
     builder
       .addCase(fetchTargetVacancy.pending, (state) => {

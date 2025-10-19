@@ -1,6 +1,6 @@
 import { Flex, Pill, Stack, Text } from "@mantine/core";
 import Base from "./Base";
-import type { VacanciesType } from "../types";
+import type { SalaryType, VacanciesType } from "../types";
 import ButtonCardVariant from "./ButtonCardVariant";
 
 export type VacType = {
@@ -21,6 +21,19 @@ function VacanciesCard({ vacancy, onClick }: VacType) {
         return null;
     }
   };
+  function salaryMaker(salary: SalaryType) {
+    let formSalary: string = "";
+    if (!salary) return null;
+    if (salary.from !== null) {
+      formSalary += salary.from;
+    }
+    if (salary.to && salary.from) {
+      formSalary += "-" + salary.to;
+    } else if (salary.to) {
+      formSalary += salary.to;
+    }
+    return formSalary;
+  }
   return (
     <Base data-testid={`Card-${vacancy.id}`}>
       <Stack gap={5}>
@@ -28,13 +41,14 @@ function VacanciesCard({ vacancy, onClick }: VacType) {
           {vacancy.name}
         </Text>
         <Flex gap={20} align="flex-end" mb={8}>
-          <Text>
-            {vacancy.salary === null
-              ? "Не указано"
-              : `${vacancy.salary?.from}-${vacancy.salary.to} ${
-                  vacancy.salary.currency === "RUR" ? "₽" : null
-                }`}
-          </Text>
+          {vacancy.salary ? (
+            <Text>
+              {`${salaryMaker(vacancy.salary)} ${
+                vacancy.salary.currency === "RUR" ? "₽" : null
+              }`}
+            </Text>
+          ) : null}
+
           <Text size="sm" color="#0f0f105d">
             {vacancy.experience}
           </Text>

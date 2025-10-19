@@ -8,24 +8,40 @@ import {
 } from "react-router-dom";
 import SearchVacanciesPage from "../MainBlock/SearchVacanciesPage";
 import VacanciesPage from "../VacanciesPage/VacanciesPage";
+import Vacancies from "../Vacancies/Vacancies";
+import AlertTime from "../Share/AlertTime";
+import NotFoundPage from "../Share/NotFoundPage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <>
-      <Route path="/vacancies" element={<SearchVacanciesPage />} />
-      <Route path="vacancies/:id" element={<VacanciesPage />} />
+    <Route path="/" element={<HeaderVac />}>
+      <Route index element={<Navigate to="vacancies" replace />} />
+      <Route path="vacancies" element={<SearchVacanciesPage />}>
+        <Route index element={<Vacancies />} errorElement={<AlertTime />} />
+        <Route path="city/*">
+          <Route index element={<Navigate to="/vacancies" />} />
+          <Route
+            path=":cityName"
+            element={<Vacancies />}
+            errorElement={<AlertTime />}
+          />
+        </Route>
+      </Route>
       <Route
-        path="*"
-        element={<Navigate to={"/vacancies"} replace={true} />} // NotFound
+        path="vacancies/:id"
+        element={<VacanciesPage />}
+        errorElement={<AlertTime />}
       />
-    </>
+      <Route path="Not-Found" element={<NotFoundPage />} />
+      <Route path="/*" element={<Navigate to="/vacancies" />} />
+    </Route>
   )
 );
 
 function App() {
   return (
     <>
-      <HeaderVac />
+      {/* <HeaderVac /> */}
       <RouterProvider router={router} />
     </>
   );

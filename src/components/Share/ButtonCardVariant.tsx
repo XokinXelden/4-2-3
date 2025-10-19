@@ -8,7 +8,7 @@ function ButtonCardVariant({ onClick, vacancy }: VacType) {
         size="sm"
         color="#0F0F10"
         radius="sm"
-        onClick={() => onClick(vacancy)} ///Заглушка
+        onClick={() => onClick(vacancy)}
       >
         {vacancy.employerDescription
           ? "Откликнуться на hh.ru"
@@ -20,10 +20,9 @@ function ButtonCardVariant({ onClick, vacancy }: VacType) {
           size="sm"
           color="#0f0f103b"
           radius="sm"
-          component="a"
-          href={vacancy.urlVacant}
-          target="_blank"
-          rel="noopener noreferrer"
+          onClick={() => {
+            window.open(vacancy.urlVacant);
+          }}
         >
           Откликнуться
         </Button>

@@ -1,5 +1,10 @@
 import { Container, Divider, Stack, Text, Title } from "@mantine/core";
-import { useLocation, useSearchParams } from "react-router-dom";
+import {
+  useLocation,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import VacanciesCard from "../Share/VacanciesCard";
 import Base from "../Share/Base";
 import { useEffect } from "react";
@@ -13,21 +18,35 @@ function VacanciesPage() {
   const [searchParam, setSearchParam] = useSearchParams();
   const locate = useLocation();
   const dispatch = useAppDispatch();
+  const { id } = useParams();
+  const navigate = useNavigate();
   const { loading, targetVacancy, error } = useAppSelector(
     (state) => state.rootReducer.vacanciesReducer
   );
-  const employerId = searchParam.get("employer") || locate.state.employerId;
-  const vacancyId = locate.pathname.slice(1).split("/");
+
+  const employerId =
+    searchParam.get("employer") || locate.state?.employerId || null;
+
   useEffect(() => {
-    setSearchParam({ employer: employerId });
-    dispatch(
-      fetchTargetVacancy({ employerId: employerId, vacancyId: vacancyId[1] })
-    );
+    if (!id || isNaN(Number(id)) || employerId === null) {
+      navigate(`/Not-Found`, {
+        replace: true,
+        state: {
+          status: "404",
+          text: "К сожалению не вышло получить информацию о пользователе или работодателе",
+        },
+      });
+    } else {
+      setSearchParam({ employer: employerId });
+
+      dispatch(fetchTargetVacancy({ employerId: employerId, vacancyId: id }));
+    }
   }, []);
+
   const onClick = (targetVacancy: VacanciesType) => {
-    // ЗАГЛУШКА
     window.open(targetVacancy.urlVacant);
   };
+
   if (loading) {
     return (
       <Container maw={700} mb={50}>
@@ -41,7 +60,7 @@ function VacanciesPage() {
     throw new Error("не пришли данные о вакансии");
   }
   if (error) {
-    return <AlertTime error={error} />;
+    return <AlertTime />;
   }
   return (
     <Container maw={700} mb={50}>
