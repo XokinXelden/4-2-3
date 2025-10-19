@@ -20,8 +20,7 @@ function VacanciesPage() {
     return (
       <Container maw={700} mb={50}>
         <Stack align="space-between" gap={20}>
-          <LoadingVacancies count={1} />
-          <LoadingVacancies count={1} />
+          <LoadingVacancies count={2} />
         </Stack>
       </Container>
     );
