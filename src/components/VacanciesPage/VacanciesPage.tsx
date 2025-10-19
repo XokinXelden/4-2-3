@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { fetchTargetVacancy } from "../../Reducer/reducerThunkVacant";
 import LoadingVacancies from "../Share/LoadingVacancies";
 import AlertTime from "../Share/AlertTime";
+import type { VacanciesType } from "../types";
 
 function VacanciesPage() {
   const [searchParam, setSearchParam] = useSearchParams();
@@ -17,13 +18,16 @@ function VacanciesPage() {
   );
   const employerId = searchParam.get("employer") || locate.state.employerId;
   const vacancyId = locate.pathname.slice(1).split("/");
-  console.log(useLocation());
   useEffect(() => {
     setSearchParam({ employer: employerId });
     dispatch(
       fetchTargetVacancy({ employerId: employerId, vacancyId: vacancyId[1] })
     );
   }, []);
+  const onClick = (targetVacancy: VacanciesType) => {
+    // ЗАГЛУШКА
+    window.open(targetVacancy.urlVacant);
+  };
   if (loading) {
     return (
       <Container maw={700} mb={50}>
@@ -42,10 +46,7 @@ function VacanciesPage() {
   return (
     <Container maw={700} mb={50}>
       <Stack gap={20} align="space-between">
-        <VacanciesCard
-          vacancy={targetVacancy}
-          onClick={(f) => console.log("заглуша" + f)}
-        />
+        <VacanciesCard vacancy={targetVacancy} onClick={onClick} />
         <Base>
           <Stack gap={10}>
             <Title order={2}>Компания</Title>

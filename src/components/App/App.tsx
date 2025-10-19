@@ -5,7 +5,6 @@ import {
   Navigate,
   Route,
   RouterProvider,
-  Routes,
 } from "react-router-dom";
 import SearchVacanciesPage from "../MainBlock/SearchVacanciesPage";
 import VacanciesPage from "../VacanciesPage/VacanciesPage";

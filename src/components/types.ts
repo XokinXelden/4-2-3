@@ -73,15 +73,3 @@ export type TargetJson = {
   employer: EmployerJson;
 };
 export type TargetFetchOption = { employerId: string; vacancyId: string };
-// export type TargetVacancy = {
-//   id: string;
-//   name: string;
-//   city: string;
-//   salary: SalaryType | null;
-//   experience: string;
-//   employerName: string;
-//   workFormat: string | null;
-//   urlVacant: string;
-//   employerDescription?: string;
-//   vacancyDescription?: string;
-// };
