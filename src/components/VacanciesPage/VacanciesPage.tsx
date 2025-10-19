@@ -1,20 +1,28 @@
 import { Container, Divider, Stack, Text, Title } from "@mantine/core";
-import { useLocation } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
 import VacanciesCard from "../Share/VacanciesCard";
 import Base from "../Share/Base";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { fetchTargetVacancy } from "../../Reducer/reducerThunkVacant";
 import LoadingVacancies from "../Share/LoadingVacancies";
+import AlertTime from "../Share/AlertTime";
 
 function VacanciesPage() {
-  const id = useLocation().state;
+  const [searchParam, setSearchParam] = useSearchParams();
+  const locate = useLocation();
   const dispatch = useAppDispatch();
-  const { loading, targetVacancy } = useAppSelector(
+  const { loading, targetVacancy, error } = useAppSelector(
     (state) => state.rootReducer.vacanciesReducer
   );
+  const employerId = searchParam.get("employer") || locate.state.employerId;
+  const vacancyId = locate.pathname.slice(1).split("/");
+  console.log(useLocation());
   useEffect(() => {
-    dispatch(fetchTargetVacancy(id));
+    setSearchParam({ employer: employerId });
+    dispatch(
+      fetchTargetVacancy({ employerId: employerId, vacancyId: vacancyId[1] })
+    );
   }, []);
   if (loading) {
     return (
@@ -27,6 +35,9 @@ function VacanciesPage() {
   }
   if (targetVacancy === null) {
     throw new Error("не пришли данные о вакансии");
+  }
+  if (error) {
+    return <AlertTime error={error} />;
   }
   return (
     <Container maw={700} mb={50}>

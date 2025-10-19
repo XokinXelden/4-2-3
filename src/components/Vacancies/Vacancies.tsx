@@ -1,10 +1,10 @@
-import { Alert } from "@mantine/core";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import LoadingVacancies from "../Share/LoadingVacancies";
 import VacanciesCard from "../Share/VacanciesCard";
 import { useNavigate } from "react-router-dom";
 import type { VacanciesType } from "../types";
 import { cleanUp } from "../../Reducer/reducerSlicer";
+import AlertTime from "../Share/AlertTime";
 
 function Vacancies() {
   const { vacancies, loading, error } = useAppSelector(
@@ -23,7 +23,7 @@ function Vacancies() {
     return <LoadingVacancies count={10} />;
   }
   if (error) {
-    return <Alert title="Ну всё, без работы сидим">{error}</Alert>;
+    return <AlertTime error={error} />;
   }
   if (vacancies !== null) {
     return vacancies.map((vacancy) => {
