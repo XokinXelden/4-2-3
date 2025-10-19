@@ -1,4 +1,4 @@
-type SalaryType = { from: number; to: number; currency: string };
+export type SalaryType = { from: number; to: number; currency: string };
 
 export type VacanciesType = {
   id: string;
