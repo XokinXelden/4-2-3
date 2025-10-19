@@ -1,15 +1,20 @@
-import { Divider } from "@mantine/core";
 import HeaderVac from "../Header/Header";
-import InputBlock from "../InputBlock/InputBlock";
-import MainBlock from "../MainBlock/MainBlock";
+import { Navigate, Route, Routes } from "react-router-dom";
+import SearchVacanciesPage from "../MainBlock/SearchVacanciesPage";
+import VacanciesPage from "../VacanciesPage/VacanciesPage";
 
 function App() {
   return (
     <>
       <HeaderVac />
-      <InputBlock />
-      <Divider w="100vw" my="lg"></Divider>
-      <MainBlock />
+      <Routes>
+        <Route path="/vacancies" element={<SearchVacanciesPage />} />
+        <Route path="vacancies/:id" element={<VacanciesPage />} />
+        <Route
+          path="*"
+          element={<Navigate to={"/vacancies"} replace={true} />} // NotFound
+        />
+      </Routes>
     </>
   );
 }

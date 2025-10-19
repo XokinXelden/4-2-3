@@ -1,10 +1,16 @@
 import { Button, Flex, Input, Stack, Text, Title } from "@mantine/core";
 import { IconSearch } from "@tabler/icons-react";
-import { useState } from "react";
-import { useAppDispatch } from "../hooks/redux";
+import { useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { installFilter } from "../../Reducer/reducerSlicer";
 
 function InputBlock() {
+  const filter = useAppSelector(
+    (state) => state.rootReducer.vacanciesReducer.options.filter
+  );
+  useEffect(() => {
+    setInputValue(filter);
+  }, [filter]);
   const [inputValue, setInputValue] = useState<string>("");
   const dispatch = useAppDispatch();
   return (
@@ -29,14 +35,13 @@ function InputBlock() {
           }}
           onKeyDown={(e) => {
             if (e.key === "Enter") {
-              console.log(inputValue);
-              dispatch(installFilter(inputValue ?? ""));
+              dispatch(installFilter({ type: "Filter", filter: inputValue }));
             }
           }}
         ></Input>
         <Button
           onClick={() => {
-            dispatch(installFilter(inputValue));
+            dispatch(installFilter({ type: "Filter", filter: inputValue }));
           }}
         >
           Найти

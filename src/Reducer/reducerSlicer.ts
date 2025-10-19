@@ -2,24 +2,29 @@ import { createSlice } from "@reduxjs/toolkit";
 import { fetchVacanciesList } from "./reducerThunk";
 import type {
   OptionsType,
-  Vacancies,
+  VacanciesType,
   VacanciesItemsJson,
 } from "../components/types";
+import { cities } from "../components/Share/cityBase";
+import { fetchTargetVacancy } from "./reducerThunkVacant";
 
 type SlicerType = {
-  vacancies: Vacancies[] | null;
+  vacancies: VacanciesType[] | null;
+  targetVacancy: VacanciesType | null;
   options: OptionsType;
   loading: boolean;
   error?: string;
 };
 const initialState: SlicerType = {
   vacancies: null,
+  targetVacancy: null,
   options: {
     page: 1,
     pages: 10,
-    city: "113",
-    skills: ["TypeScript", "React", "Redux"],
+    city: { id: "113", name: "" },
+    skills: [],
     filter: "",
+    textFilter: "",
   },
   loading: true,
   error: undefined,
@@ -48,19 +53,46 @@ export const vacanciesSlice = createSlice({
       state.options.page = action.payload;
     },
     installFilter: (state, action) => {
-      state.options.filter = action.payload === "" ? "" : action.payload;
-      state.options.page = 1;
+      switch (action.payload.type) {
+        case "Filter":
+          state.options.filter =
+            action.payload === "" ? "" : action.payload.filter;
+          state.options.page = 1;
+          break;
+        case "TextFilter":
+          state.options.textFilter = action.payload.filter;
+      }
     },
     changeCity: (state, action) => {
+      const city = Object.entries(cities).find((city) => {
+        if (city[0] === action.payload) {
+          return city;
+        } else if (city[1] === action.payload) {
+          return city;
+        }
+      });
+      if (city) {
+        state.options.city.id = city[0];
+        state.options.city.name = city[1];
+      }
+    },
+    firstSkillsEntering: (state, action) => {
+      if (action.payload !== "") {
+        if (action.payload[0] === "%") {
+          const allSkills = action.payload.slice(3).split("%20");
+          state.options.skills = allSkills;
+        } else {
+          const allSkills = action.payload.split("%20");
+          state.options.filter = allSkills[0];
+          state.options.skills = allSkills.slice(1);
+        }
+      }
+    },
+    cleanUp: (state, action) => {
       switch (action.payload) {
-        case "Все города":
-          state.options.city = "113";
-          break;
-        case "Санкт-Петербург":
-          state.options.city = "2";
-          break;
-        case "Москва":
-          state.options.city = "1";
+        case "CleanSearchVac":
+          state.vacancies = null;
+          state.loading = true;
           break;
       }
     },
@@ -88,6 +120,7 @@ export const vacanciesSlice = createSlice({
               salary: salary,
               experience: vac.experience.name,
               employerName: vac.employer.name,
+              employerId: vac.employer.id,
               workFormat: vac.work_format[0]?.id ?? null,
               urlVacant: vac.alternate_url,
             };
@@ -97,12 +130,42 @@ export const vacanciesSlice = createSlice({
         state.loading = false;
       })
       .addCase(fetchVacanciesList.rejected, (state, action) => {
-        console.log(1, action);
+        state.error = action.payload;
+      });
+    builder
+      .addCase(fetchTargetVacancy.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchTargetVacancy.fulfilled, (state, action) => {
+        const vacancyPage = action.payload.vacancy;
+        const employerPage = action.payload.employer;
+        const data = {
+          id: vacancyPage.id,
+          name: vacancyPage.name,
+          city: vacancyPage.area.name,
+          salary: vacancyPage.salary ?? null,
+          experience: vacancyPage.experience.name,
+          employerName: vacancyPage.employer.name,
+          workFormat: vacancyPage.work_format[0]?.id ?? null,
+          urlVacant: vacancyPage.alternate_url,
+          employerDescription: employerPage.description,
+          vacancyDescription: vacancyPage.description,
+        };
+        state.targetVacancy = data;
+        state.loading = false;
+      })
+      .addCase(fetchTargetVacancy.rejected, (state, action) => {
         state.error = action.payload;
         state.loading = false;
       });
   },
 });
-export const { addRemoveSkill, activePage, installFilter, changeCity } =
-  vacanciesSlice.actions;
+export const {
+  addRemoveSkill,
+  activePage,
+  installFilter,
+  changeCity,
+  firstSkillsEntering,
+  cleanUp,
+} = vacanciesSlice.actions;
 export default vacanciesSlice.reducer;

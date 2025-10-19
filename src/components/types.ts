@@ -1,33 +1,55 @@
 type SalaryType = { from: number; to: number; currency: string };
 
-export type Vacancies = {
-  id: number;
+export type VacanciesType = {
+  id: string;
   name: string;
   city: string | null;
   salary: SalaryType | null;
   experience: string;
   employerName: string;
+  employerId?: string;
   workFormat: string | null;
   urlVacant: string;
+  employerDescription?: string;
+  vacancyDescription?: string;
 };
 export type OptionsType = {
   page: number;
   pages: number;
   skills: string[];
-  city: string;
+  city: { id: string; name: string };
   filter: string;
+  textFilter: string;
 };
 export type VacanciesResponseJson = {
   items: VacanciesItemsJson[];
   pages: number;
 };
 export type VacanciesItemsJson = {
-  id: number;
+  id: string;
   name: string;
   alternate_url: string;
   address: {
     city: string | null;
   };
+  salary: SalaryType | null;
+  experience: {
+    name: string;
+  };
+  employer: {
+    id: string;
+    name: string;
+  };
+  work_format: [
+    {
+      id: string;
+    }
+  ];
+};
+type VacancyJson = {
+  id: string;
+  name: string;
+  area: { name: string };
   salary: SalaryType | null;
   experience: {
     name: string;
@@ -40,4 +62,26 @@ export type VacanciesItemsJson = {
       id: string;
     }
   ];
+  alternate_url: string;
+  description: string;
 };
+type EmployerJson = {
+  description: string;
+};
+export type TargetJson = {
+  vacancy: VacancyJson;
+  employer: EmployerJson;
+};
+export type TargetFetchOption = { employerId: string; vacancyId: string };
+// export type TargetVacancy = {
+//   id: string;
+//   name: string;
+//   city: string;
+//   salary: SalaryType | null;
+//   experience: string;
+//   employerName: string;
+//   workFormat: string | null;
+//   urlVacant: string;
+//   employerDescription?: string;
+//   vacancyDescription?: string;
+// };

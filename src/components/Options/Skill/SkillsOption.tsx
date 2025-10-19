@@ -2,13 +2,20 @@ import { Button, Flex, Input, Stack, Text } from "@mantine/core";
 import Base from "../../Share/Base";
 import { IconPlus } from "@tabler/icons-react";
 import SkillsList from "./SkillsList";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppDispatch } from "../../hooks/redux";
 import { addRemoveSkill } from "../../../Reducer/reducerSlicer";
 
 function SkillsOption() {
   const dispatch = useAppDispatch();
   const [SkillName, setSkillName] = useState<string>("");
+  useEffect(() => {
+    //////КОСТЫЛЬ ПРОСТО ЧТО БЫ НЕ ПОДСТРАИВАТЬ КОД ПОД СТАРТОВЫЕ НАСТРОЙКИ КОТОРОЕ ВОВСЕ НЕ НУЖНЫ, ЕСЛИ ТАК ПОСМОТРЕТЬ)
+    dispatch(addRemoveSkill({ type: "ADD", skill: "TypeScript" }));
+    dispatch(addRemoveSkill({ type: "ADD", skill: "React" }));
+    dispatch(addRemoveSkill({ type: "ADD", skill: "Redux" }));
+  }, []);
+
   return (
     <Base>
       <Stack>

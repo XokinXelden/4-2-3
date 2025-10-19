@@ -1,10 +1,10 @@
 import { Flex, Skeleton, Stack } from "@mantine/core";
-import Base from "../Share/Base";
+import Base from "./Base";
 
-function LoadingVacancies() {
+function LoadingVacancies({ count }: { count: number }) {
   return (
     <>
-      {Array.from({ length: 10 }).map((_, i) => {
+      {Array.from({ length: count }).map((_, i) => {
         return (
           <Base key={i} data-testid="LoadingCard">
             <Stack gap={5}>
