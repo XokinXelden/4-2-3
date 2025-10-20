@@ -18,9 +18,7 @@ function allCity() {
 function TabsVacancies() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const city = useAppSelector(
-    (state) => state.rootReducer.vacanciesReducer.options.city
-  );
+  const city = useAppSelector((state) => state.vacancies.options.city);
   const { cityName } = useParams();
   function cityChecker(city: string) {
     let checker: boolean = true;

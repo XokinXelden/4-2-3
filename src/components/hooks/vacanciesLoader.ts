@@ -4,7 +4,7 @@ import {
   activePage,
   changeCity,
   firstSkillsEntering,
-  installFilter,
+  // installFilter,
 } from "../../Reducer/reducerSlicer";
 import { fetchVacanciesList } from "../../Reducer/reducerThunk";
 import type { OptionsType } from "../types";
@@ -21,8 +21,8 @@ function useVacanciesLoader(
   const dispatch = useAppDispatch();
   const { cityName } = useParams();
   useEffect(() => {
-    const textQuery = Param.get("text") || options.textFilter;
-    const areaQuery = cityName || options.city.id;
+    const textQuery = Param.get("text") || "";
+    const areaQuery = cityName || options.city.name;
     const pageQuery = Param.get("page") || options.page;
     dispatch(changeCity(areaQuery));
     dispatch(activePage(pageQuery));
@@ -33,14 +33,26 @@ function useVacanciesLoader(
     if (options) {
       const filter = options.filter !== "" ? `${options.filter}` : "";
       const skill =
-        options.skills.length !== 0 ? `%20${options.skills.join(`%20`)}` : "";
+        options.skills.length !== 0 ? `${options.skills.join(` `)}` : "";
+      const newFilter =
+        filter !== ""
+          ? `${filter}` + (skill.length !== 0 ? `%` + skill : "")
+          : skill.length !== 0
+          ? "%" + skill
+          : "";
 
-      dispatch(installFilter({ type: "TextFilter", filter: filter + skill }));
+      // dispatch(installFilter({ type: "TextFilter", filter: newFilter }));
       setParam({
-        text: options.textFilter,
+        text: newFilter,
         page: `${options.page}`,
       });
-      dispatch(fetchVacanciesList(options));
+      dispatch(
+        fetchVacanciesList({
+          page: "" + options.page,
+          area: options.city.id,
+          text: newFilter,
+        })
+      );
     }
   }, [dispatch, options]);
 }

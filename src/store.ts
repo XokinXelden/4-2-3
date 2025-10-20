@@ -1,10 +1,10 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import vacanciesReducer from "./Reducer/reducerSlicer";
 
-const rootReducer = combineReducers({ vacanciesReducer });
+const rootReducer = combineReducers({ vacancies: vacanciesReducer });
 
 export const store = configureStore({
-  reducer: { rootReducer },
+  reducer: rootReducer,
 });
 
 export type RootState = ReturnType<typeof store.getState>;

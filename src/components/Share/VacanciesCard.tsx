@@ -2,6 +2,7 @@ import { Flex, Pill, Stack, Text } from "@mantine/core";
 import Base from "./Base";
 import type { SalaryType, VacanciesType } from "../types";
 import ButtonCardVariant from "./ButtonCardVariant";
+import { Link } from "react-router-dom";
 
 export type VacType = {
   vacancy: VacanciesType;
@@ -23,23 +24,32 @@ function VacanciesCard({ vacancy, onClick }: VacType) {
   };
   function salaryMaker(salary: SalaryType) {
     let formSalary: string = "";
+
     if (!salary) return null;
     if (salary.from !== null) {
-      formSalary += salary.from;
+      formSalary += salary.from.toLocaleString();
+      if (salary.to === null) {
+        return (formSalary = "От " + formSalary);
+      }
     }
     if (salary.to && salary.from) {
-      formSalary += "-" + salary.to;
+      formSalary += " - " + salary.to.toLocaleString();
     } else if (salary.to) {
-      formSalary += salary.to;
+      formSalary += `До ` + salary.to.toLocaleString();
     }
     return formSalary;
   }
   return (
     <Base data-testid={`Card-${vacancy.id}`}>
       <Stack gap={5}>
-        <Text size="lg" color="#4263EB" fw="bold">
-          {vacancy.name}
-        </Text>
+        <Link
+          to={`/vacancies/${vacancy.id}`}
+          state={{ employerId: vacancy.employerId, vacancyId: vacancy.id }}
+        >
+          <Text size="lg" color="#4263EB" fw="bold">
+            {vacancy.name}
+          </Text>
+        </Link>
         <Flex gap={20} align="flex-end" mb={8}>
           {vacancy.salary ? (
             <Text>

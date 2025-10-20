@@ -6,9 +6,7 @@ import { changeCity } from "../../Reducer/reducerSlicer";
 
 function CityOption() {
   const dispatch = useAppDispatch();
-  const city = useAppSelector(
-    (state) => state.rootReducer.vacanciesReducer.options.city
-  );
+  const city = useAppSelector((state) => state.vacancies.options.city);
   return (
     <Base>
       <Select

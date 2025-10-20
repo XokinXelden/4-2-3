@@ -1,21 +1,25 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import type { OptionsType, VacanciesResponseJson } from "../components/types";
+import type {
+  URLOptionsType,
+  VacanciesResponseJson,
+} from "../components/types";
 
 export const fetchVacanciesList = createAsyncThunk<
   VacanciesResponseJson,
-  OptionsType,
+  URLOptionsType,
   { rejectValue: string }
 >("vacanciesList/fetch", async (options, { rejectWithValue }) => {
   try {
-    const { city, textFilter } = options;
+    const searchParam = new URLSearchParams(options);
+    if (options.text.length === 0) {
+      searchParam.delete("text");
+    }
+    const API_URL = import.meta.env.VITE_VACANCIES_API_URL;
+    const fullUrl =
+      `${API_URL}?industry=7&professional_role=96&per_page=10` +
+      `&${searchParam.toString()}`;
+    const response = await fetch(fullUrl);
 
-    const response = await fetch(
-      `https://api.hh.ru/vacancies?area=${
-        city.id
-      }&industry=7&professional_role=96&per_page=10&page=${options.page - 1}${
-        textFilter !== "" ? `&text=${textFilter}` : ""
-      }`
-    );
     if (!response.ok) {
       throw new Error("При запросе на сервер что то пошло не так");
     }

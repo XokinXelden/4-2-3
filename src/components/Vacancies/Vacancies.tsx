@@ -8,12 +8,12 @@ import AlertTime from "../Share/AlertTime";
 
 function Vacancies() {
   const { vacancies, loading, error } = useAppSelector(
-    (state) => state.rootReducer.vacanciesReducer
+    (state) => state.vacancies
   );
   const dispatch = useAppDispatch();
-  const navig = useNavigate();
+  const navigate = useNavigate();
   const onClick = (vacancy: VacanciesType) => {
-    navig(`/vacancies/${vacancy.id}`, {
+    navigate(`/vacancies/${vacancy.id}`, {
       state: { employerId: vacancy.employerId, vacancyId: vacancy.id },
     });
     dispatch(cleanUp("CleanSearchVac"));
@@ -22,9 +22,20 @@ function Vacancies() {
     return <LoadingVacancies count={10} />;
   }
   if (error) {
-    return <AlertTime />;
+    return <AlertTime btn={false} />;
   }
   if (vacancies !== null) {
+    if (vacancies.length === 0) {
+      return (
+        <AlertTime
+          btn={false}
+          alertText={{
+            title: "Поиск не дал результатов",
+            message: "Возможно стоит уменьшить кол-во фильтров",
+          }}
+        />
+      );
+    }
     return vacancies.map((vacancy) => {
       return (
         <VacanciesCard key={vacancy.id} vacancy={vacancy} onClick={onClick} />

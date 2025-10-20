@@ -34,6 +34,7 @@ function SkillsOption() {
             }}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
+                if (SkillName === "") return;
                 dispatch(addRemoveSkill({ type: "ADD", skill: SkillName }));
                 setSkillName("");
               }
@@ -45,6 +46,7 @@ function SkillsOption() {
             p={0}
             radius={8}
             onClick={() => {
+              if (SkillName === "") return;
               dispatch(addRemoveSkill({ type: "ADD", skill: SkillName }));
               setSkillName("");
             }}

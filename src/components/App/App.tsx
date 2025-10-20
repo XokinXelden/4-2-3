@@ -17,20 +17,20 @@ const router = createBrowserRouter(
     <Route path="/" element={<HeaderVac />}>
       <Route index element={<Navigate to="vacancies" replace />} />
       <Route path="vacancies" element={<SearchVacanciesPage />}>
-        <Route index element={<Vacancies />} errorElement={<AlertTime />} />
+        <Route
+          index
+          element={<Vacancies />}
+          errorElement={<AlertTime btn={false} />}
+        />
         <Route path="city/*">
           <Route index element={<Navigate to="/vacancies" />} />
-          <Route
-            path=":cityName"
-            element={<Vacancies />}
-            errorElement={<AlertTime />}
-          />
+          <Route path=":cityName" element={<Vacancies />} />
         </Route>
       </Route>
       <Route
         path="vacancies/:id"
         element={<VacanciesPage />}
-        errorElement={<AlertTime />}
+        errorElement={<AlertTime btn={true} />}
       />
       <Route path="Not-Found" element={<NotFoundPage />} />
       <Route path="/*" element={<Navigate to="/vacancies" />} />

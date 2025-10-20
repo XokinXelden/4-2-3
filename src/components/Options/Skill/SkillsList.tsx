@@ -4,9 +4,7 @@ import { addRemoveSkill } from "../../../Reducer/reducerSlicer";
 
 function SkillsList() {
   const dispatch = useAppDispatch();
-  const PreSkills = useAppSelector(
-    (state) => state.rootReducer.vacanciesReducer.options.skills
-  );
+  const PreSkills = useAppSelector((state) => state.vacancies.options.skills);
 
   return (
     <Flex wrap="wrap" maw={280}>

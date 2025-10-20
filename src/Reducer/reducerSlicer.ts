@@ -24,7 +24,6 @@ const initialState: SlicerType = {
     city: { id: "1", name: "moscow" },
     skills: [],
     filter: "",
-    textFilter: "",
   },
   loading: true,
   error: undefined,
@@ -53,15 +52,8 @@ export const vacanciesSlice = createSlice({
       state.options.page = action.payload;
     },
     installFilter: (state, action) => {
-      switch (action.payload.type) {
-        case "Filter":
-          state.options.filter =
-            action.payload === "" ? "" : action.payload.filter;
-          state.options.page = 1;
-          break;
-        case "TextFilter":
-          state.options.textFilter = action.payload.filter;
-      }
+      state.options.filter = action.payload;
+      state.options.page = 1;
     },
     changeCity: (state, action) => {
       const city = Object.entries(cities).find((city) => {
@@ -79,12 +71,12 @@ export const vacanciesSlice = createSlice({
     firstSkillsEntering: (state, action) => {
       if (action.payload !== "") {
         if (action.payload[0] === "%") {
-          const allSkills = action.payload.slice(3).split("%20");
+          const allSkills = action.payload.slice(1).split(" ");
           state.options.skills = allSkills;
         } else {
-          const allSkills = action.payload.split("%20");
+          const allSkills = action.payload.split("%");
           state.options.filter = allSkills[0];
-          state.options.skills = allSkills.slice(1);
+          state.options.skills = allSkills[1]?.split(" ") ?? [];
         }
       }
     },
@@ -93,8 +85,12 @@ export const vacanciesSlice = createSlice({
         case "CleanSearchVac":
           state.vacancies = null;
           state.loading = true;
+          state.error = undefined;
           break;
       }
+    },
+    errorClean: (state) => {
+      state.error = undefined;
     },
   },
   extraReducers: (builder) => {
@@ -104,7 +100,7 @@ export const vacanciesSlice = createSlice({
       })
       .addCase(fetchVacanciesList.fulfilled, (state, action) => {
         if (Array.isArray(action.payload.items)) {
-          state.options.pages = action.payload.pages;
+          state.options.pages = action.payload.pages - 1;
           const data = action.payload.items.map((vac: VacanciesItemsJson) => {
             const salary = vac.salary
               ? {
@@ -168,5 +164,6 @@ export const {
   changeCity,
   firstSkillsEntering,
   cleanUp,
+  errorClean,
 } = vacanciesSlice.actions;
 export default vacanciesSlice.reducer;

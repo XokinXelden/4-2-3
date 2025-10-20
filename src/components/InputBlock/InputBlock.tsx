@@ -5,9 +5,7 @@ import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { installFilter } from "../../Reducer/reducerSlicer";
 
 function InputBlock() {
-  const filter = useAppSelector(
-    (state) => state.rootReducer.vacanciesReducer.options.filter
-  );
+  const filter = useAppSelector((state) => state.vacancies.options.filter);
   useEffect(() => {
     setInputValue(filter);
   }, [filter]);
@@ -35,13 +33,13 @@ function InputBlock() {
           }}
           onKeyDown={(e) => {
             if (e.key === "Enter") {
-              dispatch(installFilter({ type: "Filter", filter: inputValue }));
+              dispatch(installFilter(inputValue));
             }
           }}
         ></Input>
         <Button
           onClick={() => {
-            dispatch(installFilter({ type: "Filter", filter: inputValue }));
+            dispatch(installFilter(inputValue));
           }}
         >
           Найти

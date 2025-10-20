@@ -9,9 +9,7 @@ import useVacanciesLoader from "../hooks/vacanciesLoader";
 
 function MainBlock() {
   const dispatch = useAppDispatch();
-  const options = useAppSelector(
-    (state) => state.rootReducer.vacanciesReducer.options
-  );
+  const options = useAppSelector((state) => state.vacancies.options);
   const [searchParam, setSearchParam] = useSearchParams();
 
   useVacanciesLoader(options, searchParam, setSearchParam);

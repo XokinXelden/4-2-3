@@ -21,7 +21,7 @@ function VacanciesPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { loading, targetVacancy, error } = useAppSelector(
-    (state) => state.rootReducer.vacanciesReducer
+    (state) => state.vacancies
   );
 
   const employerId =
@@ -56,11 +56,15 @@ function VacanciesPage() {
       </Container>
     );
   }
-  if (targetVacancy === null) {
-    throw new Error("не пришли данные о вакансии");
-  }
-  if (error) {
-    return <AlertTime />;
+
+  if (targetVacancy === null || error) {
+    return (
+      <Container maw={500}>
+        <Stack align="space-between" gap={20}>
+          <AlertTime btn={true} />
+        </Stack>
+      </Container>
+    );
   }
   return (
     <Container maw={700} mb={50}>

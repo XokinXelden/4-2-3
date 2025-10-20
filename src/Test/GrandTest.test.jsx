@@ -23,7 +23,6 @@ describe("Проверка всего функционала", async () => {
     } catch (error) {
       console.error(error);
     }
-    expect(true).toBe(true);
     const input = screen.getByTestId(/input-emp/i);
     expect(input).toBeInTheDocument();
     await userEvent.type(input, "Java");
