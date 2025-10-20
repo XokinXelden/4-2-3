@@ -1,5 +1,7 @@
-import { Box, Image, Flex, Text } from "@mantine/core";
-import { Link, NavLink, Outlet } from "react-router-dom";
+import { Box, Flex } from "@mantine/core";
+import { Outlet } from "react-router-dom";
+import Logo from "../Share/Logo";
+import { VacancyFE, AboutLink } from "./Panel";
 
 function HeaderVac() {
   return (
@@ -14,46 +16,11 @@ function HeaderVac() {
         style={{ boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)", zIndex: 1000 }}
       >
         <Flex align="center" justify="center">
-          <Box style={{ justifyItems: "flex-start" }}>
-            <Link to="/">
-              <Image src="/Logo.png" h={30} w={116} />
-            </Link>
-          </Box>
+          <Logo />
           <Box mx="auto" pr={146}>
             <Flex align="center" gap="10">
-              <Flex gap={5} align="center">
-                <Link to="/">
-                  <Text c={"#0F0F10"} size="md">
-                    Вакансии FE
-                  </Text>
-                </Link>
-                <div
-                  style={{
-                    width: "7px",
-                    height: "7px",
-                    borderRadius: "50%",
-                    backgroundColor: "#4263EB",
-                  }}
-                />
-              </Flex>
-
-              <Flex
-                align="center"
-                gap={5}
-                variant="transparent"
-                color="#00000073"
-              >
-                <Image src="/user-circle.png" h={24} w={24} />
-                <NavLink
-                  to="/about"
-                  style={({ isActive }) => ({
-                    color: isActive ? "#4263EB" : "black",
-                    fontWeight: "normal",
-                  })}
-                >
-                  Обо мне
-                </NavLink>
-              </Flex>
+              <VacancyFE />
+              <AboutLink />
             </Flex>
           </Box>
         </Flex>
