@@ -11,11 +11,13 @@ import VacanciesPage from "../VacanciesPage/VacanciesPage";
 import Vacancies from "../Vacancies/Vacancies";
 import AlertTime from "../Share/AlertTime";
 import NotFoundPage from "../Share/NotFoundPage";
+import AboutMe from "../AboutMePage/AboutMe";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<HeaderVac />}>
       <Route index element={<Navigate to="vacancies" replace />} />
+      <Route path="about" element={<AboutMe />} />
       <Route path="vacancies" element={<SearchVacanciesPage />}>
         <Route
           index
