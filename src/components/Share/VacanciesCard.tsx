@@ -44,7 +44,7 @@ function VacanciesCard({ vacancy, onClick }: VacType) {
       <Stack gap={5}>
         <Link
           to={`/vacancies/${vacancy.id}`}
-          state={{ employerId: vacancy.employerId, vacancyId: vacancy.id }}
+          // state={{ vacancyId: vacancy.id }}
         >
           <Text size="lg" color="#4263EB" fw="bold">
             {vacancy.name}

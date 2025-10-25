@@ -1,10 +1,5 @@
 import { Container, Divider, Stack, Text, Title } from "@mantine/core";
-import {
-  useLocation,
-  useNavigate,
-  useParams,
-  useSearchParams,
-} from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import VacanciesCard from "../Share/VacanciesCard";
 import Base from "../Share/Base";
 import { useEffect } from "react";
@@ -13,10 +8,9 @@ import { fetchTargetVacancy } from "../../Reducer/reducerThunkVacant";
 import LoadingVacancies from "../Share/LoadingVacancies";
 import AlertTime from "../Share/AlertTime";
 import type { VacanciesType } from "../types";
+import { cleanUp } from "../../Reducer/reducerSlicer";
 
 function VacanciesPage() {
-  const [searchParam, setSearchParam] = useSearchParams();
-  const locate = useLocation();
   const dispatch = useAppDispatch();
   const { id } = useParams();
   const navigate = useNavigate();
@@ -24,11 +18,9 @@ function VacanciesPage() {
     (state) => state.vacancies
   );
 
-  const employerId =
-    searchParam.get("employer") || locate.state?.employerId || null;
-
   useEffect(() => {
-    if (!id || isNaN(Number(id)) || employerId === null) {
+    dispatch(cleanUp("CleanSearchVac"));
+    if (!id || isNaN(Number(id)) || error) {
       navigate(`/Not-Found`, {
         replace: true,
         state: {
@@ -37,11 +29,9 @@ function VacanciesPage() {
         },
       });
     } else {
-      setSearchParam({ employer: employerId });
-
-      dispatch(fetchTargetVacancy({ employerId: employerId, vacancyId: id }));
+      dispatch(fetchTargetVacancy({ vacancyId: id }));
     }
-  }, []);
+  }, [error]);
 
   const onClick = (targetVacancy: VacanciesType) => {
     window.open(targetVacancy.urlVacant);
@@ -57,7 +47,7 @@ function VacanciesPage() {
     );
   }
 
-  if (targetVacancy === null || error) {
+  if (targetVacancy === null) {
     return (
       <Container maw={500}>
         <Stack align="space-between" gap={20}>

@@ -14,7 +14,7 @@ function Vacancies() {
   const navigate = useNavigate();
   const onClick = (vacancy: VacanciesType) => {
     navigate(`/vacancies/${vacancy.id}`, {
-      state: { employerId: vacancy.employerId, vacancyId: vacancy.id },
+      state: { vacancyId: vacancy.id },
     });
     dispatch(cleanUp("CleanSearchVac"));
   };

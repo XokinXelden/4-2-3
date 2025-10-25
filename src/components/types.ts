@@ -7,7 +7,7 @@ export type VacanciesType = {
   salary: SalaryType | null;
   experience: string;
   employerName: string;
-  employerId?: string;
+  // employerId?: string;
   workFormat: string | null;
   urlVacant: string;
   employerDescription?: string;
@@ -72,4 +72,7 @@ export type TargetJson = {
   vacancy: VacancyJson;
   employer: EmployerJson;
 };
-export type TargetFetchOption = { employerId: string; vacancyId: string };
+export type TargetFetchOption = {
+  // employerId: string;
+  vacancyId: string;
+};

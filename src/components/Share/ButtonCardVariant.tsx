@@ -1,31 +1,46 @@
-import { Button } from "@mantine/core";
 import type { VacType } from "./VacanciesCard";
+import { Link, useMatch } from "react-router-dom";
 
-function ButtonCardVariant({ onClick, vacancy }: VacType) {
+function ButtonCardVariant({ vacancy }: VacType) {
+  const match = useMatch("/vacancies/:id");
   return (
     <>
-      <Button
-        size="sm"
-        color="#0F0F10"
-        radius="sm"
-        onClick={() => onClick(vacancy)}
+      <Link
+        to={match ? vacancy.urlVacant : `/vacancies/${vacancy.id}`}
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "36px",
+          width: "170px",
+          backgroundColor: "#0F0F10",
+          borderRadius: "4px",
+          fontSize: "14px",
+          color: "white",
+        }}
       >
         {vacancy.employerDescription
           ? "Откликнуться на hh.ru"
           : "Смотреть вакансию"}
-      </Button>
+      </Link>
 
       {!!vacancy.employerDescription || (
-        <Button
-          size="sm"
-          color="#0f0f103b"
-          radius="sm"
-          onClick={() => {
-            window.open(vacancy.urlVacant);
+        <Link
+          to={vacancy.urlVacant}
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "36px",
+            width: "170px",
+            backgroundColor: "#0f0f103b",
+            borderRadius: "4px",
+            fontSize: "14px",
+            color: "white",
           }}
         >
           Откликнуться
-        </Button>
+        </Link>
       )}
     </>
   );
